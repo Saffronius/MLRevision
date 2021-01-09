@@ -5,19 +5,18 @@ def sigmoid(x):
     y = 1 / (1 + math.exp(-x))
     return y
 
-x1 = [0, 0, 1, 1]  # input1
-x2 = [0, 1, 0, 1]  # input2
-t = [0, 1, 1, 0]  # target
+x1 = [0, 0,1 , 1]  
+x2 = [0, 1, 0, 1]  
+t = [0, 1, 1, 0]  
 
-# Hidden layer first Perceptron
 b1 = -0.3
 w11 = 0.21
-w21 = 0.15
-# Hidden Layer Second Perceptron
+w21 = 0.10
+
 b2 = 0.25
 w12 = -0.4
 w22 = 0.1
-# Output layer Perceptron
+
 b3 = -0.4
 w13 = -0.2
 w23 = 0.3
@@ -25,40 +24,30 @@ w23 = 0.3
 error = 0
 iteration = 0
 train = True
-##print("weight are:")
-##print("w11 : %4.2f w12: %4.2f w21: %4.2f w22: %4.2f w13: %4.2f  w23: %4.2f  \n" %(w11,w12,w21,w22,w13,w23))
-
-
-## Training Starts
 
 while (train):
 
     for i in range(len(x1)):
-        ##input for each perceptron of hidden layer
+
         z_in1 = b1 + x1[i] * w11 + x2[i] * w21
         z_in2 = b2 + x1[i] * w12 + x2[i] * w22
-        ##computing activation function output
+
         z1 = round(sigmoid(z_in1), 4)
         z2 = round(sigmoid(z_in2), 4)
 
-        # Output layer forward pass
         y_in = b3 + z1 * w13 + z2 * w23
         y = round(sigmoid(y_in), 4)
 
-        ##error computation
         del_k = round((t[i] - y) * y * (1 - y), 4)
         error = del_k
-        ##Back pass
-        # weight update for output layer
+        
         w13 = round(w13 + del_k * z1, 4)
         w23 = round(w23 + del_k * z2, 4)
         b3 = round(b3 + del_k, 4)   
 
-        ##error computation for hidden layer
         del_1 = del_k * w13 * z1 * (1 - z1)
         del_2 = del_k * w23 * z2 * (1 - z2)
 
-        ## update weight and biases
         b1 = round(b1 + del_1, 4)
         w11 = round(w11 + del_1 * x1[i], 4)
         w12 = round(w12 + del_1 * x1[i], 4)
@@ -72,5 +61,5 @@ while (train):
         print("Error: %5.3f" % del_k)
         iteration = iteration + 1
 
-    if (iteration == 1000):
+    if (iteration == 5000):
         train = False
